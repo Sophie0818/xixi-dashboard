@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嘻嘻媽媽・每日作息</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:   #faf6f0;
+  --milk:    #f4ede0;
+  --latte:   #e8d9c4;
+  --tea:     #c9ad90;
+  --brown:   #8b6e52;
+  --dark:    #4a3728;
+  --soft:    #f9f3eb;
+  --blush:   #f0e4d4;
+  --sage:    #d4ddd0;
+  --dust:    #ddd0c4;
+  --white:   #fffdf9;
+
+  --sleep-bg:  #ede8f5; --sleep-tx: #5c4d7a;
+  --feed-bg:   #e4f0e8; --feed-tx:  #3a6647;
+  --pump-bg:   #f5edde; --pump-tx:  #7a5c30;
+  --work-bg:   #ddeaf5; --work-tx:  #2d5478;
+  --rest-bg:   #ede8e2; --rest-tx:  #6b5a4a;
+  --self-bg:   #f5e4ec; --self-tx:  #7a3d5c;
+  --baby-bg:   #e8f0e0; --baby-tx:  #4a6a30;
+  --beauty-bg: #f5e8e0; --beauty-tx:#7a4a30;
+  --meal-bg:   #f0ece4; --meal-tx:  #6a5030;
+  --meet-bg:   #e0eaf5; --meet-tx:  #304878;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ── decorative top border ── */
+.ribbon {
+  height: 4px;
+  background: linear-gradient(90deg, var(--latte), var(--tea), var(--latte), var(--tea), var(--latte));
+}
+
+.page { max-width: 720px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+/* ── header ── */
+.header { text-align: center; margin-bottom: 2.5rem; position: relative; }
+.header-deco {
+  font-size: 28px;
+  letter-spacing: 12px;
+  color: var(--tea);
+  margin-bottom: 0.5rem;
+  opacity: 0.6;
+}
+.header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--dark);
+  line-height: 1.2;
+}
+.header h1 em {
+  font-style: italic;
+  color: var(--brown);
+}
+.header-sub {
+  font-size: 11px;
+  color: var(--tea);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+.header-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1.2rem;
+  justify-content: center;
+}
+.header-line::before,
+.header-line::after {
+  content: '';
+  flex: 1;
+  max-width: 80px;
+  height: 0.5px;
+  background: var(--latte);
+}
+.header-line span {
+  font-size: 16px;
+  color: var(--tea);
+}
+
+/* ── metric cards ── */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0,1fr));
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+.metric {
+  background: var(--white);
+  border: 1px solid var(--latte);
+  border-radius: 14px;
+  padding: 14px 10px 12px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.metric::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--latte);
+  border-radius: 14px 14px 0 0;
+}
+.metric-icon { font-size: 16px; margin-bottom: 4px; }
+.metric-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  font-weight: 400;
+  color: var(--brown);
+  line-height: 1;
+}
+.metric-lbl { font-size: 9.5px; color: var(--tea); margin-top: 4px; letter-spacing: 0.06em; }
+.metric-sub { font-size: 9px; color: var(--latte); margin-top: 2px; }
+
+/* ── tabs ── */
+.tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  background: var(--milk);
+  padding: 6px;
+  border-radius: 16px;
+  border: 1px solid var(--latte);
+}
+.tab {
+  padding: 6px 16px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: var(--brown);
+  font-size: 12px;
+  font-family: 'Noto Sans TC', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+  flex: 1;
+  min-width: fit-content;
+}
+.tab:hover { background: var(--blush); }
+.tab.on {
+  background: var(--white);
+  color: var(--dark);
+  font-weight: 500;
+  box-shadow: 0 1px 6px rgba(139,110,82,0.12);
+}
+
+/* ── panel ── */
+.panel { display: none; animation: fadeUp 0.25s ease; }
+.panel.on { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── alert boxes ── */
+.abox {
+  border-radius: 12px;
+  padding: 11px 16px;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  border-left: 3px solid;
+}
+.abox.warm { background: #fdf4ea; color: #7a5030; border-color: var(--tea); }
+.abox.sage { background: #f0f4ee; color: #3a5a30; border-color: #a8c4a0; }
+.abox.rose { background: #fdf0f4; color: #7a3050; border-color: #d4a0b4; }
+
+/* ── legend ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.li { display: flex; align-items: center; gap: 5px; font-size: 10.5px; color: var(--brown); }
+.ld { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+
+/* ── timeline ── */
+.tl { display: flex; flex-direction: column; gap: 4px; }
+.trow { display: flex; gap: 12px; align-items: flex-start; }
+.tc {
+  width: 52px;
+  flex-shrink: 0;
+  font-size: 10px;
+  color: var(--tea);
+  padding-top: 8px;
+  text-align: right;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+.bc { flex: 1; }
+.entry {
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  transition: opacity 0.15s;
+}
+.entry:hover { opacity: 0.85; }
+.entry .tg {
+  font-size: 10px;
+  opacity: 0.65;
+  margin-left: auto;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+/* entry type colours — softer, milky versions */
+.sleep  { background: var(--sleep-bg);  color: var(--sleep-tx);  border-color: #ddd8f0; }
+.feed   { background: var(--feed-bg);   color: var(--feed-tx);   border-color: #c8e0d0; }
+.pump   { background: var(--pump-bg);   color: var(--pump-tx);   border-color: #e8d8c0; }
+.work   { background: var(--work-bg);   color: var(--work-tx);   border-color: #b8d4e8; }
+.rest   { background: var(--rest-bg);   color: var(--rest-tx);   border-color: #d8d0c8; }
+.self   { background: var(--self-bg);   color: var(--self-tx);   border-color: #e8c8d8; }
+.baby   { background: var(--baby-bg);   color: var(--baby-tx);   border-color: #c4d8b8; }
+.beauty { background: var(--beauty-bg); color: var(--beauty-tx); border-color: #e4ccbc; }
+.meal   { background: var(--meal-bg);   color: var(--meal-tx);   border-color: #d8ccc0; }
+.meet   { background: var(--meet-bg);   color: var(--meet-tx);   border-color: #b0c8e4; }
+
+/* ── section title ── */
+.stitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--brown);
+  letter-spacing: 0.06em;
+  margin: 1.75rem 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.stitle::after { content: ''; flex: 1; height: 0.5px; background: var(--latte); }
+
+/* ── pills ── */
+.pills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.2rem; }
+.pill {
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--latte);
+  color: var(--brown);
+  background: var(--white);
+  letter-spacing: 0.02em;
+}
+
+/* ── card grid ── */
+.cgrid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.card {
+  background: var(--white);
+  border: 1px solid var(--latte);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
+}
+.card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--brown);
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+.card ul { padding-left: 16px; }
+.card li { font-size: 11.5px; color: var(--dark); line-height: 2; opacity: 0.85; }
+
+/* ── skincare steps ── */
+.sk-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--milk);
+}
+.sk-step:last-child { border-bottom: none; padding-bottom: 0; }
+.sk-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.sk-num.am { background: var(--latte); color: var(--dark); }
+.sk-num.pm { background: var(--dust); color: var(--dark); }
+.sk-name { font-size: 12px; font-weight: 500; color: var(--dark); }
+.sk-product { font-size: 11px; color: var(--brown); margin-top: 1px; font-style: italic; }
+
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+.bam { background: var(--latte); color: var(--dark); }
+.bpm { background: var(--dust);  color: var(--dark); }
+
+/* ── progress ── */
+.prow { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.plabel { font-size: 11px; color: var(--brown); width: 80px; flex-shrink: 0; }
+.pbar { flex: 1; height: 6px; background: var(--milk); border-radius: 6px; overflow: hidden; }
+.pfill { height: 100%; border-radius: 6px; }
+.pval { font-size: 11px; color: var(--tea); width: 42px; text-align: right; font-family: 'Cormorant Garamond', serif; }
+
+/* ── checklist ── */
+.ck-section-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--brown);
+  letter-spacing: 0.06em;
+  margin: 1.25rem 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ck-section-label::after { content:''; flex:1; height:0.5px; background:var(--latte); }
+.cklist { display: flex; flex-direction: column; gap: 5px; }
+.ci {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 12px;
+  color: var(--dark);
+  cursor: pointer;
+  padding: 9px 14px;
+  border-radius: 11px;
+  border: 1px solid var(--latte);
+  background: var(--white);
+  user-select: none;
+  transition: all 0.15s;
+  line-height: 1.5;
+}
+.ci:hover { background: var(--soft); border-color: var(--tea); }
+.ci.done { color: var(--tea); text-decoration: line-through; background: var(--milk); }
+.cb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--latte);
+  background: var(--white);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  color: white;
+  transition: all 0.15s;
+}
+.ci.done .cb { background: var(--tea); border-color: var(--tea); }
+
+.rbtn {
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--tea);
+  background: none;
+  border: 1px solid var(--latte);
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif;
+  padding: 5px 18px;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+}
+.rbtn:hover { background: var(--milk); color: var(--brown); }
+
+/* ── footer ── */
+.footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--latte);
+}
+.footer p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: var(--tea);
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 500px) {
+  .metrics { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .cgrid   { grid-template-columns: 1fr; }
+  .header h1 { font-size: 2rem; }
+  .tabs { gap: 4px; }
+  .tab { font-size: 11px; padding: 5px 10px; }
+}
+</style>
+</head>
+<body>
+<div class="ribbon"></div>
+<div class="page">
+
+  <!-- header -->
+  <div class="header">
+    <div class="header-deco">✦ ✦ ✦</div>
+    <h1>嘻嘻媽媽<br><em>每日作息</em></h1>
+    <div class="header-sub">產後第一個月 · 溫和追奶版</div>
+    <div class="header-line"><span>✿</span></div>
+  </div>
+
+  <!-- metrics -->
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-icon">🌙</div>
+      <div class="metric-val">6.5h</div>
+      <div class="metric-lbl">主睡眠</div>
+      <div class="metric-sub">9pm – 3:30am</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">🍼</div>
+      <div class="metric-val">4次</div>
+      <div class="metric-lbl">每日擠奶</div>
+      <div class="metric-sub">共 160 分鐘</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">💼</div>
+      <div class="metric-val">4h</div>
+      <div class="metric-lbl">工作目標</div>
+      <div class="metric-sub">見縫插針</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">☀️</div>
+      <div class="metric-val">1.5h</div>
+      <div class="metric-lbl">午睡上限</div>
+      <div class="metric-sub">1:30 – 3:00pm</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">🌸</div>
+      <div class="metric-val">~1h</div>
+      <div class="metric-lbl">自己的時間</div>
+      <div class="metric-sub">6:30 – 9pm</div>
+    </div>
+  </div>
+
+  <!-- tabs -->
+  <div class="tabs">
+    <button class="tab on"  onclick="show('normal')">一般日</button>
+    <button class="tab" onclick="show('meeting')">開會日</button>
+    <button class="tab" onclick="show('recovery')">產後修復</button>
+    <button class="tab" onclick="show('skincare')">護膚保養</button>
+    <button class="tab" onclick="show('checklist')">今日清單</button>
+  </div>
+
+  <!-- 一般日 -->
+  <div id="p-normal" class="panel on">
+    <div class="abox sage">工作4小時目標：嘻嘻睡著時立刻切換工作模式。主要空檔為 9:35am–12pm（約2.5h）、午睡後 3:00–4pm（約1h）、晚上博主時間嘻嘻睡著後（約0.5h）。</div>
+    <div class="legend">
+      <div class="li"><div class="ld" style="background:var(--sleep-bg);border:1px solid #ddd8f0"></div>睡眠</div>
+      <div class="li"><div class="ld" style="background:var(--feed-bg);border:1px solid #c8e0d0"></div>餵奶換尿布</div>
+      <div class="li"><div class="ld" style="background:var(--pump-bg);border:1px solid #e8d8c0"></div>擠奶</div>
+      <div class="li"><div class="ld" style="background:var(--work-bg);border:1px solid #b8d4e8"></div>工作</div>
+      <div class="li"><div class="ld" style="background:var(--beauty-bg);border:1px solid #e4ccbc"></div>沐浴護膚</div>
+      <div class="li"><div class="ld" style="background:var(--self-bg);border:1px solid #e8c8d8"></div>自己的時間</div>
+    </div>
+    <div class="tl" id="tl-normal"></div>
+  </div>
+
+  <!-- 開會日 -->
+  <div id="p-meeting" class="panel">
+    <div class="abox rose">週二、四開會日：早上擠奶①取消，只有3次擠奶。7pm後取消修復與博主，只休息。沐浴護膚照常保留。</div>
+    <div class="legend">
+      <div class="li"><div class="ld" style="background:var(--sleep-bg);border:1px solid #ddd8f0"></div>睡眠</div>
+      <div class="li"><div class="ld" style="background:var(--feed-bg);border:1px solid #c8e0d0"></div>餵奶換尿布</div>
+      <div class="li"><div class="ld" style="background:var(--pump-bg);border:1px solid #e8d8c0"></div>擠奶</div>
+      <div class="li"><div class="ld" style="background:var(--meet-bg);border:1px solid #b0c8e4"></div>開會</div>
+      <div class="li"><div class="ld" style="background:var(--beauty-bg);border:1px solid #e4ccbc"></div>沐浴護膚</div>
+      <div class="li"><div class="ld" style="background:var(--rest-bg);border:1px solid #d8d0c8"></div>休息</div>
+    </div>
+    <div class="tl" id="tl-meeting"></div>
+  </div>
+
+  <!-- 產後修復 -->
+  <div id="p-recovery" class="panel">
+    <div class="stitle">修復原則</div>
+    <div class="pills">
+      <div class="pill">每天30分鐘</div>
+      <div class="pill">全部躺著或坐著</div>
+      <div class="pill">傷口拉扯就停</div>
+      <div class="pill">開會日跳過</div>
+    </div>
+    <div class="cgrid">
+      <div class="card">
+        <h3>週一、三、五</h3>
+        <div style="font-size:10px;color:var(--tea);margin-bottom:8px;letter-spacing:0.06em">骨盆底</div>
+        <ul>
+          <li>360度呼吸 10分鐘</li>
+          <li>Kegel 收5秒放5秒 × 20組</li>
+          <li>骨盆傾斜 10分鐘</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>週二、四、六</h3>
+        <div style="font-size:10px;color:var(--tea);margin-bottom:8px;letter-spacing:0.06em">深層核心</div>
+        <ul>
+          <li>橫膈膜呼吸 10分鐘</li>
+          <li>Dead bug 腳部變化式 10分鐘</li>
+          <li>輕柔臀橋 10分鐘</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>週日</h3>
+        <div style="font-size:10px;color:var(--tea);margin-bottom:8px;letter-spacing:0.06em">完全休息</div>
+        <ul>
+          <li>只做10分鐘呼吸</li>
+          <li>其餘時間讓身體放鬆</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>博主準備</h3>
+        <div style="font-size:10px;color:var(--tea);margin-bottom:8px;letter-spacing:0.06em">8:00pm · 20分鐘</div>
+        <ul>
+          <li>整理嘻嘻照片/影片存素材</li>
+          <li>備忘錄記今天一個感受</li>
+          <li>看一個母嬰博主截圖風格</li>
+          <li>寫三個字的未來主題</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stitle">每日水分</div>
+    <div class="prow">
+      <div class="plabel">目標 2500ml</div>
+      <div class="pbar"><div class="pfill" style="width:72%;background:var(--tea)"></div></div>
+      <div class="pval">1800ml</div>
+    </div>
+    <div style="font-size:10.5px;color:var(--tea);margin-top:6px;font-style:italic">每次擠奶前先喝一大杯水，4次 = 自動補 800ml ✦</div>
+  </div>
+
+  <!-- 護膚保養 -->
+  <div id="p-skincare" class="panel">
+    <div class="abox warm">沐浴 6:30pm → 晚間護膚 6:50pm → 晚餐 7:00pm。早晨護膚在 8:50am 餵完奶後進行。</div>
+    <div class="cgrid">
+      <div class="card">
+        <div class="badge bam">早晨 · 8:50am · 5分鐘</div>
+        <div class="sk-step">
+          <div class="sk-num am">1</div>
+          <div><div class="sk-name">清潔</div><div class="sk-product">m̄enom̄eno Fc 溫和潔面露</div></div>
+        </div>
+        <div class="sk-step">
+          <div class="sk-num am">2</div>
+          <div><div class="sk-name">前導</div><div class="sk-product">m̄enom̄eno Tn 效能前導精露</div></div>
+        </div>
+        <div class="sk-step">
+          <div class="sk-num am">3</div>
+          <div><div class="sk-name">淡斑</div><div class="sk-product">維他命C 精華</div></div>
+        </div>
+        <div class="sk-step">
+          <div class="sk-num am">4</div>
+          <div><div class="sk-name">防曬</div><div class="sk-product">SPF 30+ 每天必做</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="badge bpm">晚間 · 6:50pm · 5–8分鐘</div>
+        <div class="sk-step">
+          <div class="sk-num pm">1</div>
+          <div><div class="sk-name">清潔</div><div class="sk-product">m̄enom̄eno Fc 溫和潔面露</div></div>
+        </div>
+        <div class="sk-step">
+          <div class="sk-num pm">2</div>
+          <div><div class="sk-name">修復</div><div class="sk-product">m̄enom̄eno Sr 專業集水精華</div></div>
+        </div>
+        <div class="sk-step">
+          <div class="sk-num pm">3</div>
+          <div><div class="sk-name">提亮</div><div class="sk-product">m̄enom̄eno Es 強化淨白精華</div></div>
+        </div>
+        <div class="sk-step">
+          <div class="sk-num pm">4</div>
+          <div><div class="sk-name">鎖水</div><div class="sk-product">晚霜／乳液</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="stitle">護膚提醒</div>
+    <div class="card">
+      <ul style="padding-left:16px">
+        <li style="font-size:12px;color:var(--dark);line-height:2.1;opacity:0.85">哺乳期避免含視黃醇（Retinol）的產品</li>
+        <li style="font-size:12px;color:var(--dark);line-height:2.1;opacity:0.85">傷口周圍不要使用精油類產品</li>
+        <li style="font-size:12px;color:var(--dark);line-height:2.1;opacity:0.85">維他命C 早上用效果最好，搭配防曬</li>
+        <li style="font-size:12px;color:var(--dark);line-height:2.1;opacity:0.85">沐浴水溫不要太燙，避免傷口刺激</li>
+        <li style="font-size:12px;color:var(--dark);line-height:2.1;opacity:0.85">沐浴後立即護膚，皮膚濕潤時吸收最好</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 今日清單 -->
+  <div id="p-checklist" class="panel">
+    <div class="cklist" id="cklist"></div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="rbtn" onclick="resetCk()">✦ 重置清單</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>嘻嘻媽媽加油 · 你做得比你以為的多很多 ✦</p>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const normal = [
+  { t:"4:00am", l:"接嘻嘻換班", c:"baby" },
+  { t:"4:00am", l:"餵奶＋換尿布", c:"feed", g:"50分鐘" },
+  { t:"4:50am", l:"補眠 / 工作", c:"sleep", g:"嘻嘻睡著時見縫插針" },
+  { t:"8:00am", l:"餵奶＋換尿布", c:"feed", g:"50分鐘" },
+  { t:"8:50am", l:"早晨護膚", c:"beauty", g:"5分鐘" },
+  { t:"8:55am", l:"擠奶①", c:"pump", g:"40分鐘・先喝水" },
+  { t:"9:35am", l:"💼 工作", c:"work", g:"獨立作業 ~2.5h" },
+  { t:"12:00pm", l:"餵奶＋換尿布", c:"feed", g:"50分鐘" },
+  { t:"12:50pm", l:"擠奶②", c:"pump", g:"40分鐘・先喝水" },
+  { t:"1:30pm", l:"午睡（跟嘻嘻一起）", c:"sleep", g:"最多1.5小時" },
+  { t:"3:00pm", l:"💼 工作", c:"work", g:"嘻嘻醒前空檔 ~1h" },
+  { t:"4:00pm", l:"餵奶＋換尿布", c:"feed", g:"50分鐘" },
+  { t:"4:50pm", l:"擠奶③", c:"pump", g:"40分鐘・先喝水" },
+  { t:"5:30pm", l:"帶嘻嘻 / 💼 工作空檔", c:"baby", g:"嘻嘻睡著時工作" },
+  { t:"6:30pm", l:"交給媽媽・沐浴", c:"beauty", g:"15–20分鐘" },
+  { t:"6:50pm", l:"晚間護膚", c:"beauty", g:"5–8分鐘" },
+  { t:"7:00pm", l:"晚餐", c:"meal", g:"好好坐著吃" },
+  { t:"7:30pm", l:"產後修復", c:"self", g:"30分鐘" },
+  { t:"8:00pm", l:"博主準備 / 💼 工作", c:"work", g:"20分鐘" },
+  { t:"8:20pm", l:"擠奶④", c:"pump", g:"40分鐘・先喝水" },
+  { t:"9:00pm", l:"三行日記，關機", c:"rest" },
+  { t:"9:10pm", l:"睡覺 🌙", c:"sleep" },
+  { t:"11:30pm", l:"媽媽餵奶（你繼續睡）", c:"sleep", g:"媽媽負責" },
+];
+
+const meeting = [
+  { t:"4:00am", l:"接嘻嘻換班", c:"baby" },
+  { t:"4:00am", l:"餵奶＋換尿布", c:"feed", g:"50分鐘" },
+  { t:"4:50am", l:"準備開會，喝熱飲", c:"meet" },
+  { t:"5:00am", l:"開會", c:"meet", g:"波士頓" },
+  { t:"6:00am", l:"補眠", c:"sleep", g:"能睡多少睡多少" },
+  { t:"8:00am", l:"餵奶＋換尿布", c:"feed", g:"50分鐘" },
+  { t:"8:50am", l:"早晨護膚", c:"beauty", g:"5分鐘" },
+  { t:"8:55am", l:"擠奶①", c:"pump", g:"40分鐘・先喝水" },
+  { t:"9:00am", l:"開會", c:"meet", g:"⚠ 與擠奶重疊" },
+  { t:"11:00am", l:"結束，立刻休息", c:"rest", g:"不要做其他事" },
+  { t:"12:00pm", l:"餵奶＋換尿布", c:"feed", g:"50分鐘" },
+  { t:"12:50pm", l:"擠奶②", c:"pump", g:"40分鐘・先喝水" },
+  { t:"1:30pm", l:"午睡，務必睡", c:"sleep", g:"今天最重要" },
+  { t:"3:00pm", l:"帶嘻嘻 / 工作空檔", c:"baby" },
+  { t:"4:00pm", l:"餵奶＋換尿布", c:"feed", g:"50分鐘" },
+  { t:"4:50pm", l:"擠奶③", c:"pump", g:"40分鐘・先喝水" },
+  { t:"5:30pm", l:"帶嘻嘻", c:"baby" },
+  { t:"6:30pm", l:"沐浴", c:"beauty", g:"15–20分鐘" },
+  { t:"6:50pm", l:"晚間護膚", c:"beauty", g:"5–8分鐘" },
+  { t:"7:00pm", l:"晚餐", c:"meal" },
+  { t:"7:30pm", l:"休息", c:"rest", g:"取消修復與博主" },
+  { t:"8:20pm", l:"擠奶④", c:"pump", g:"40分鐘" },
+  { t:"9:00pm", l:"三行日記，關機", c:"rest" },
+  { t:"9:10pm", l:"睡覺 🌙", c:"sleep", g:"越早越好" },
+];
+
+const sections = [
+  { label:"早上", items:[
+    "4am 餵奶＋換尿布（50分鐘）",
+    "8am 餵奶＋換尿布（50分鐘）",
+    "8:50am 早晨護膚（清潔→前導→維C→防曬）",
+    "8:55am 擠奶①（40分鐘・先喝水）",
+  ]},
+  { label:"下午", items:[
+    "吃午餐",
+    "12pm 餵奶＋換尿布（50分鐘）",
+    "12:50pm 擠奶②（40分鐘・先喝水）",
+    "1:30pm 午睡跟嘻嘻一起睡",
+    "4pm 餵奶＋換尿布（50分鐘）",
+    "4:50pm 擠奶③（40分鐘・先喝水）",
+  ]},
+  { label:"晚上", items:[
+    "6:30pm 沐浴（15–20分鐘）",
+    "6:50pm 晚間護膚（清潔→集水→淨白→晚霜）",
+    "吃晚餐（好好坐著吃）",
+    "7:30pm 產後修復 30分鐘",
+    "8:00pm 博主準備 / 工作",
+    "8:20pm 擠奶④（40分鐘・先喝水）",
+    "9:00pm 三行日記，關機",
+    "9:10pm 上床睡覺 🌙",
+  ]},
+];
+
+function renderTL(id, data) {
+  document.getElementById(id).innerHTML = data.map(d =>
+    `<div class="trow"><div class="tc">${d.t}</div><div class="bc">
+      <div class="entry ${d.c}">${d.l}${d.g?`<span class="tg">${d.g}</span>`:''}</div>
+    </div></div>`
+  ).join('');
+}
+
+function renderCk() {
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem('xixi4') || '[]'); } catch(e) {}
+  const el = document.getElementById('cklist');
+  let html = '';
+  sections.forEach((s, si) => {
+    html += `<div class="ck-section-label">${s.label}</div>`;
+    s.items.forEach((item, ii) => {
+      const key = `${si}-${ii}`;
+      const done = saved.includes(key);
+      html += `<div class="ci${done?' done':''}" onclick="toggleCk('${key}')">
+        <div class="cb">${done?'✓':''}</div>${item}</div>`;
+    });
+  });
+  el.innerHTML = html;
+}
+
+function toggleCk(key) {
+  let saved = [];
+  try { saved = JSON.parse(localStorage.getItem('xixi4') || '[]'); } catch(e) {}
+  saved = saved.includes(key) ? saved.filter(x=>x!==key) : [...saved, key];
+  try { localStorage.setItem('xixi4', JSON.stringify(saved)); } catch(e) {}
+  renderCk();
+}
+
+function resetCk() {
+  try { localStorage.removeItem('xixi4'); } catch(e) {}
+  renderCk();
+}
+
+function show(name) {
+  ['normal','meeting','recovery','skincare','checklist'].forEach(n => {
+    document.getElementById('p-'+n).classList.toggle('on', n===name);
+  });
+  document.querySelectorAll('.tab').forEach((b,i) =>
+    b.classList.toggle('on', ['normal','meeting','recovery','skincare','checklist'][i]===name));
+  if (name==='checklist') renderCk();
+}
+
+renderTL('tl-normal', normal);
+renderTL('tl-meeting', meeting);
+</script>
+</body>
+</html>
